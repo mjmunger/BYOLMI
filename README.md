@@ -84,7 +84,7 @@ In Windows, you'll probably need to add a firewall rule to allow traffic over yo
 
 # Troubleshooting Connections
 
-If you're unable to connect, the problem lies in one of three problem areas (listed from most likely to least likely):
+If you're unable to connect, the problem lies in one of these problem areas (listed from most likely to least likely):
 
 1. You did not copy the public key of the workstation to the /etc/tinc/hosts/ directory of your primary node server. Failure to do so leaves the client unable to authenticate with the primary server node.
 2. You need to create a proper firewall entry on the workstation. It is recommended that you allow all traffic on the VPN network regardless of ports. To do so, see *Add the Firewall Rules* above. I have also seen where group policy erases the firewall rule previously set. If you're on a domain, it would be best to add this rule via group policy instead of via a simple local override.

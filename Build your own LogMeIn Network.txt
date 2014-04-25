@@ -1,0 +1,47 @@
+Build your own LogMeIn Network
+
+At the beginning of the year, the IT world was taken hostage by the shareholders of LogMeIn. Their free product, which had been free for ten years, all of the sudden became a "pay" product. Now, I am the first person who will say that software makers have a right to charge whatever they choose; however, the one week countdown was enough to make me never trust them again. They knew that people had built business processes around their software, and many people would be forced to buy a license if they weren't given enough time to consider other options. That's the road they chose, and I took the path less traveled.
+
+The LogMeIn solution is a fantastic product, and if you have a requirement to log in to machines on a day-to-day basis, it might be worth the investment. But, for the rest of us - especially the occasional user - $99 / year just isn't worth the convenience for occasional use. So, I began the search for alternatives. A simple Google search doesn't reveal any secrets. You see links for Teamviewer and a few other remote desktop style products, but nothing that can replace LogMeIn with free, open-source software. So: challenge accepted.
+
+The main components of LMI
+
+The LMI product has five parts to it: firewall traversal, access to dyanmic IP address spaces, an ecrypted connection, remote control, and remote file transfer. The service does have a few more bells and whilstles like remote WOL (Wake on LAN) and updates monitoring, but if you need enterprise features, cough up the $99 bucks and pay the piper. If you're just looking to replace the free product, keep reading.
+
+Firewall Traversal & Dyanamic IPs
+
+Nearly everyone knows about port forwarding. If you want to access windows remote desktop on a remote computer on a remote network, you need to forward port 3389 to that computer's LAN IP address. It's easily done, but requires two things that make simple port forwarding a bad choice for a LogMeIn replacement. First, you either need a static IP address or a Dnynamic DNS client in order to "find" the remote computer on the vast expanse of the internet and then you need to properly configure the router. With thousands of routers to choose from and clients who never know their router's user / pass, this isn't an easy process.
+
+However, the only thing required to win here is basic networking and firewall knowledge. All routers and firewalls, from home routers to enterprise, utlize NAT routing tables. These are (effectively) lists of what network resources have made outbound requests to the internet, and where the replies to those requests should be delievered when they reach the WAN side of your router. For example, when your computer makes a request to http://www.experts-exchange.com, the router on your network remembers that "the computer at 192.168.1.100 sent a request to www.experts-exchange.com, so when I get a reply from www.experts-exchange.com, I need to route it back to 192.168.1.100". So, our free solution must be a program that runs on the client computer (just like LogMeIn) that initiates a sustained connection to a server we control. This kills two birds with one stone: it traverses the firewall and it helps us discover where the computer is on the internet.
+
+An Encrypted Connection
+
+LogMeIn uses some strong encryption: ECDHE AES-256 SHA1 to be exact. Without going into detail of what that means, we can say: it's strong. Real strong. We need something equally strong or close to it.
+
+Remote Control & Remote File Transfer
+
+This is probably the easiest to figure out: there are a number of solutions that afford you remote control of a Windows computer, Mac, or Linux computer. Some are cross platform, some are not. Here, you get to pick your poison, but I have a specific program stack that will work with all three.
+
+The Solution is a Two-Part One
+
+Now that we understand the requirements, we can find open source, free software that will fit the bill. The first three requirements (Firewall Traversal, Access to Dynamic IP addresses, and Encryption) can be easily satisfied with tinc VPN. Tinc VPN is a great, free, open-source VPN solution that allows you to make point-to-point VPN connections that can assume many differnet configurations: mesh, hub-and-spoke, and gateway (just like Hamachi https://secure.logmein.com/products/hamachi/#Mesh). For our purposes, we are giong to setup a hub-and-spoke network.
+
+On a server you have control over, and which has either a public static IP (preferred) or working Dynamic DNS, setup a tinc node that will be used as the centralized node. Our is setup at web-services.highpoweredhelp.com. Now, for each computer that you need remote access to, setup tinc on those machiens as well. (For detailed, technical information on how to use Tinc in this setup, see: http://learnlinuxonline.com/servers/setting-up-a-vpn-with-tinc-vpn-software)
+
+Now we have a hub-and-spoke encrypted VPN network that connects all the machines we need to manage, which satisfies requirements 1, 2, and 3.
+
+Next, choose your remote client. For Windows, use UltraVNC - the open source VNC solution that is a counterpart to TeamView (and maintained by many of the TeamViewer developers). UltraVNC is an ideal client because you can script the installation to setup the UVNC service with pre-chosen passwords for access, as well as other settings. It also has powerful file transfer features as well as other management features like being able to disable the mouse and keyboard so the person you're helping can't battle with you for control. You can also blank the monitor if you prefer to work without clients watching what you're doing.
+
+The Secret Sauce
+Setting up Tinc VPN on Windows and then setting up UltraVNC can be time consuming and tedious, which is why I am sharing with you all the script that makes it all possible to setup in just a few minutes. The script, sample files, and readme are all hosted on Github: https://github.com/DrDamnit/BYOLMI. It downloads the required files, installs tinc and UltraVNC, installs VPN network adapters, and even allows the firewall.
+
+There are three scripts requried to setup the system:
+1. get-coreutils.vbs (Downloads GNU Core Utils so you can have access to wget for downloads)
+2. getputty.vbs (Downloads PuTTY so we can copy the encryption keys to the server)
+4. setup-web-services.vbs (Downloads and installs your pre-configured tinc and uvnc software)
+
+Setup Procedure:
+1. 
+2. Set cscript as the default vbs script interpreter: From the command line: cscript //h:csccript //s
+2. Run get-coreutils.vbs
+3. 

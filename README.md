@@ -69,3 +69,23 @@ There are three scripts requried to setup the system:
 14. Because the installer installs the default UltraVNC.ini settings, after the installer completes, the script will stop the uvnc service, then copy YOUR UltraVNC.ini settnigs to the UltraVNC directory and then restart the service to activate those new settings.
 
 Now, your installation is complete, and you should be able to access that computer over the tinc VPN network. You've just built your own LMI.
+
+# Add the Firewall Rules (If applicable)
+In Windows, you'll probably need to add a firewall rule to allow traffic over your VPN. I recommend you "whitelist" the entire network rather than just a single port or program. Do do this:
+1. Open Windows Advanced Firewall
+2. Create a new custom INBOUND rule
+3. The rule applies to ALL PROGRAMS
+4. The rule applies to ANY protocol. 
+5. The *SCOPE* of the rule applies to any **local** IP Addresses of the system, but only to the remote network of the VPN. So, on the Scope step of a new custom rule, click *These IP addresses* for the **Which remote IP addresses does this rule apply to?** section, and click the *Add* button. Then, add your network in the form of *192.168.90.0/24*
+6. Allow the connection
+7. This rule applies to **Domain, Private, and Public**
+8. Give it a name that means something to you.
+
+# Troubleshooting Connections
+
+If you're unable to connect, the problem lies in one of three problem areas (listed from most likely to least likely):
+
+1. You did not copy the public key of the workstation to the /etc/tinc/hosts/ directory of your primary node server. Failure to do so leaves the client unable to authenticate with the primary server node.
+2. You need to create a proper firewall entry on the workstation. It is recommended that you allow all traffic on the VPN network regardless of ports. To do so, see *Add the Firewall Rules* above. I have also seen where group policy erases the firewall rule previously set. If you're on a domain, it would be best to add this rule via group policy instead of via a simple local override.
+3. tinc vpn service is not configured correctly or throwing errors. tinc is VERY good about putting meaningful information in the event viewer logs. Most of them start with a message that appears to say: "Something went wrong and we don't know what" in the event viewer; however, if you scroll down, you will generally get a useful error message that will help you solve the problem.
+4. uvnc_service is stopped or broken, and needs to be restarted.

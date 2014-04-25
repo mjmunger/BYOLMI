@@ -52,7 +52,7 @@ There are three scripts requried to setup the system:
 - getputty.vbs (Downloads PuTTY and pscp so we can copy the encryption keys to the server)
 - setup-web-services.vbs (Downloads and installs your pre-configured tinc and uvnc software)
 
-# How Installation Works (setup-webservices.vbs)
+### How Installation Works (setup-webservices.vbs)
 1. First, we download tinc.zip, and extract it to %PROGRAMFILES%\tinc.
 2. Next, we download webservices.zip and extract it to %PROGRAMFILES%\tinc\webservices
 3. The script then prompts you for a unique name for this comptuer and the network, and what IP address you would like to use for the local computer on the VPN network.
@@ -70,7 +70,7 @@ There are three scripts requried to setup the system:
 
 Now, your installation is complete, and you should be able to access that computer over the tinc VPN network. You've just built your own LMI.
 
-# Add the Firewall Rules (If applicable)
+### Add the Firewall Rules (If applicable)
 In Windows, you'll probably need to add a firewall rule to allow traffic over your VPN. I recommend you "whitelist" the entire network rather than just a single port or program. Do do this:
 1. Open Windows Advanced Firewall
 2. Create a new custom INBOUND rule

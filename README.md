@@ -72,6 +72,7 @@ Now, your installation is complete, and you should be able to access that comput
 
 ### Add the Firewall Rules (If applicable)
 In Windows, you'll probably need to add a firewall rule to allow traffic over your VPN. I recommend you "whitelist" the entire network rather than just a single port or program. Do do this:
+
 1. Open Windows Advanced Firewall
 2. Create a new custom INBOUND rule
 3. The rule applies to ALL PROGRAMS

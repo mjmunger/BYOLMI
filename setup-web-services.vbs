@@ -4,6 +4,7 @@
 	'EXAMPLE: http://www.yourdomain.com/somedir/
 
 	yourDomain = "http://www.changeme.com/" '<-- Make sure to have the trailing slash!
+	webServicesServer = "web-services.changeme.com" '<-- Make sure you change this to the FQDN that we will be scp'ing the public key to.
 
 'Dim vars
 	Const ForReading = 1, ForWriting = 2, ForAppending = 8, TristateUseDefault = -2, TristateTrue = -1, TristateFalse = 0
@@ -197,7 +198,7 @@ END IF
 'Upload key to web-services.yourdomain.com
 	t.CurrentDirectory=hosts
 	StdOut.WriteLine "Current Directory: " & t.CurrentDirectory
-	cmd = "c:\util\pscp " & NetName & " root@web-services.yourdomain.com:/etc/tinc/webservices/hosts"
+	cmd = "c:\util\pscp " & NetName & " root@" & webServicesServer &":/etc/tinc/webservices/hosts"
 	StdOut.WriteLine "Secure Copy Public Key using: " & cmd
 	t.run cmd,1,true
 	

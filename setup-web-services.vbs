@@ -239,8 +239,8 @@ END IF
 	cmd = "UltraVNC_1_1_9_X86_Setup.exe /verysilent /loadinf=""setup.inf"""
 	t.run cmd,1,true
 	
-	fso.CopyFile "UltraVNC.ini", vncini
 	t.run "net stop uvnc_service",1,true
+	fso.CopyFile "UltraVNC.ini", vncini
 	t.run "net start uvnc_service",1,true
 	
 	StdOut.WriteLine "Installation Complete. This computer should now be accessible on IP: " & SubNet

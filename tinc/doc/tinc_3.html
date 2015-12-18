@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on October 19, 2013 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>tinc Manual: 3. Installation</title>
+
+<meta name="description" content="tinc Manual: 3. Installation">
+<meta name="keywords" content="tinc Manual: 3. Installation">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Installation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="tinc_2.html#lzo" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Building-and-installing-tinc" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc_2.html#Preparations" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_4.html#Configuration" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Installation-1"></a>
+<h1 class="chapter">3. Installation</h1>
+
+<p>If you use Debian, you may want to install one of the
+precompiled packages for your system.  These packages are equipped with
+system startup scripts and sample configurations.
+</p>
+<p>If you cannot use one of the precompiled packages, or you want to compile tinc
+for yourself, you can use the source.  The source is distributed under
+the GNU General Public License (GPL).  Download the source from the
+<a href="http://www.tinc-vpn.org/download/">download page</a>, which has
+the checksums of these files listed; you may wish to check these with
+md5sum before continuing.
+</p>
+<p>Tinc comes in a convenient autoconf/automake package, which you can just
+treat the same as any other package.  Which is just untar it, type
+&lsquo;./configure&rsquo; and then &lsquo;make&rsquo;.
+More detailed instructions are in the file &lsquo;<tt>INSTALL</tt>&rsquo;, which is
+included in the source distribution.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Building-and-installing-tinc">3.1 Building and installing tinc</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#System-files">3.2 System files</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+
+<hr size="6">
+<a name="Building-and-installing-tinc"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Installation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Darwin-_0028MacOS_002fX_0029-build-environment" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Installation" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Installation" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_4.html#Configuration" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Building-and-installing-tinc-1"></a>
+<h2 class="section">3.1 Building and installing tinc</h2>
+
+<p>Detailed instructions on configuring the source, building tinc and installing tinc
+can be found in the file called &lsquo;<tt>INSTALL</tt>&rsquo;.
+</p>
+<a name="index-binary-package"></a>
+<p>If you happen to have a binary package for tinc for your distribution,
+you can use the package management tools of that distribution to install tinc.
+The documentation that comes along with your distribution will tell you how to do that.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Darwin-_0028MacOS_002fX_0029-build-environment">3.1.1 Darwin (MacOS/X) build environment</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Cygwin-_0028Windows_0029-build-environment">3.1.2 Cygwin (Windows) build environment</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#MinGW-_0028Windows_0029-build-environment">3.1.3 MinGW (Windows) build environment</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+
+<hr size="6">
+<a name="Darwin-_0028MacOS_002fX_0029-build-environment"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Building-and-installing-tinc" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Cygwin-_0028Windows_0029-build-environment" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Installation" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Building-and-installing-tinc" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_4.html#Configuration" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Darwin-_0028MacOS_002fX_0029-build-environment-1"></a>
+<h3 class="subsection">3.1.1 Darwin (MacOS/X) build environment</h3>
+
+<p>In order to build tinc on Darwin, you need to install the MacOS/X Developer Tools
+from <a href="http://developer.apple.com/tools/macosxtools.html">http://developer.apple.com/tools/macosxtools.html</a> and
+a recent version of Fink from <a href="http://www.finkproject.org/">http://www.finkproject.org/</a>.
+</p>
+<p>After installation use fink to download and install the following packages:
+autoconf25, automake, dlcompat, m4, openssl, zlib and lzo.
+</p>
+<hr size="6">
+<a name="Cygwin-_0028Windows_0029-build-environment"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Darwin-_0028MacOS_002fX_0029-build-environment" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#MinGW-_0028Windows_0029-build-environment" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Installation" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Building-and-installing-tinc" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_4.html#Configuration" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Cygwin-_0028Windows_0029-build-environment-1"></a>
+<h3 class="subsection">3.1.2 Cygwin (Windows) build environment</h3>
+
+<p>If Cygwin hasn&rsquo;t already been installed, install it directly from
+<a href="http://www.cygwin.com/">http://www.cygwin.com/</a>.
+</p>
+<p>When tinc is compiled in a Cygwin environment, it can only be run in this environment,
+but all programs, including those started outside the Cygwin environment, will be able to use the VPN.
+It will also support all features.
+</p>
+<hr size="6">
+<a name="MinGW-_0028Windows_0029-build-environment"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Cygwin-_0028Windows_0029-build-environment" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#System-files" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Installation" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Building-and-installing-tinc" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_4.html#Configuration" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="MinGW-_0028Windows_0029-build-environment-1"></a>
+<h3 class="subsection">3.1.3 MinGW (Windows) build environment</h3>
+
+<p>You will need to install the MinGW environment from <a href="http://www.mingw.org">http://www.mingw.org</a>.
+</p>
+<p>When tinc is compiled using MinGW it runs natively under Windows,
+it is not necessary to keep MinGW installed.
+</p>
+<p>When detaching, tinc will install itself as a service,
+which will be restarted automatically after reboots.
+</p>
+
+<hr size="6">
+<a name="System-files"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#MinGW-_0028Windows_0029-build-environment" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Device-files" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Installation" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Installation" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_4.html#Configuration" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="System-files-1"></a>
+<h2 class="section">3.2 System files</h2>
+
+<p>Before you can run tinc, you must make sure you have all the needed
+files on your system.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Device-files">3.2.1 Device files</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Other-files">3.2.2 Other files</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+
+<hr size="6">
+<a name="Device-files"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#System-files" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Other-files" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Installation" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#System-files" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_4.html#Configuration" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Device-files-1"></a>
+<h3 class="subsection">3.2.1 Device files</h3>
+
+<a name="index-device-files"></a>
+<p>Most operating systems nowadays come with the necessary device files by default,
+or they have a mechanism to create them on demand.
+</p>
+<p>If you use Linux and do not have udev installed,
+you may need to create the following device file if it does not exist:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">mknod -m 600 /dev/net/tun c 10 200
+</pre></td></tr></table>
+
+
+<hr size="6">
+<a name="Other-files"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Device-files" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_4.html#Configuration" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Installation" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#System-files" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_4.html#Configuration" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Other-files-1"></a>
+<h3 class="subsection">3.2.2 Other files</h3>
+
+<a name="g_t_002fetc_002fnetworks"></a>
+<h4 class="subsubheading">&lsquo;<tt>/etc/networks</tt>&rsquo;</h4>
+
+<p>You may add a line to &lsquo;<tt>/etc/networks</tt>&rsquo; so that your VPN will get a
+symbolic name.  For example:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">myvpn 10.0.0.0
+</pre></td></tr></table>
+
+<a name="g_t_002fetc_002fservices"></a>
+<h4 class="subsubheading">&lsquo;<tt>/etc/services</tt>&rsquo;</h4>
+
+<a name="index-port-numbers"></a>
+<p>You may add this line to &lsquo;<tt>/etc/services</tt>&rsquo;.  The effect is that you
+may supply a &lsquo;<samp>tinc</samp>&rsquo; as a valid port number to some programs.  The
+number 655 is registered with the IANA.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">tinc            655/tcp    TINC
+tinc            655/udp    TINC
+#                          Ivo Timmermans &lt;ivo@tinc-vpn.org&gt;
+</pre></td></tr></table>
+
+
+
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Installation" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_4.html#Configuration" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated on <i>October 19, 2013</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

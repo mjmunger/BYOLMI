@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on October 19, 2013 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>tinc Manual: 1. Introduction</title>
+
+<meta name="description" content="tinc Manual: 1. Introduction">
+<meta name="keywords" content="tinc Manual: 1. Introduction">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Introduction"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="tinc.html#Top" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Virtual-Private-Networks" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_2.html#Preparations" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Introduction-1"></a>
+<h1 class="chapter">1. Introduction</h1>
+
+<a name="index-tinc"></a>
+<p>Tinc is a Virtual Private Network (VPN) daemon that uses tunneling and
+encryption to create a secure private network between hosts on the
+Internet.
+</p>
+<p>Because the tunnel appears to the IP level network code as a normal
+network device, there is no need to adapt any existing software.
+The encrypted tunnels allows VPN sites to share information with each other
+over the Internet without exposing any information to others.
+</p>
+<p>This document is the manual for tinc.  Included are chapters on how to
+configure your computer to use tinc, as well as the configuration
+process of tinc itself.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Virtual-Private-Networks">1.1 Virtual Private Networks</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#tinc">1.2 tinc</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                        About tinc
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Supported-platforms">1.3 Supported platforms</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Virtual-Private-Networks"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Introduction" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#tinc" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_2.html#Preparations" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Virtual-Private-Networks-1"></a>
+<h2 class="section">1.1 Virtual Private Networks</h2>
+
+<a name="index-VPN"></a>
+<p>A Virtual Private Network or VPN is a network that can only be accessed
+by a few elected computers that participate.  This goal is achievable in
+more than just one way.
+</p>
+<a name="index-private"></a>
+<p>Private networks can consist of a single stand-alone Ethernet LAN.  Or
+even two computers hooked up using a null-modem cable.  In these cases,
+it is
+obvious that the network is <em>private</em>, no one can access it from the
+outside.  But if your computers are linked to the Internet, the network
+is not private anymore, unless one uses firewalls to block all private
+traffic.  But then, there is no way to send private data to trusted
+computers on the other end of the Internet.
+</p>
+<a name="index-virtual"></a>
+<p>This problem can be solved by using <em>virtual</em> networks.  Virtual
+networks can live on top of other networks, but they use encapsulation to
+keep using their private address space so they do not interfere with
+the Internet.  Mostly, virtual networks appear like a single LAN, even though
+they can span the entire world.  But virtual networks can&rsquo;t be secured
+by using firewalls, because the traffic that flows through it has to go
+through the Internet, where other people can look at it.
+</p>
+<p>As is the case with either type of VPN, anybody could eavesdrop.  Or
+worse, alter data.  Hence it&rsquo;s probably advisable to encrypt the data
+that flows over the network.
+</p>
+<p>When one introduces encryption, we can form a true VPN.  Other people may
+see encrypted traffic, but if they don&rsquo;t know how to decipher it (they
+need to know the key for that), they cannot read the information that flows
+through the VPN.  This is what tinc was made for.
+</p>
+
+<hr size="6">
+<a name="tinc"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Virtual-Private-Networks" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Supported-platforms" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_2.html#Preparations" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="tinc-1"></a>
+<h2 class="section">1.2 tinc</h2>
+
+<a name="index-vpnd"></a>
+<p>I really don&rsquo;t quite remember what got us started, but it must have been
+Guus&rsquo; idea.  He wrote a simple implementation (about 50 lines of C) that
+used the ethertap device that Linux knows of since somewhere
+about kernel 2.1.60.  It didn&rsquo;t work immediately and he improved it a
+bit.  At this stage, the project was still simply called &quot;vpnd&quot;.
+</p>
+<p>Since then, a lot has changed&mdash;to say the least.
+</p>
+<a name="index-tincd"></a>
+<p>Tinc now supports encryption, it consists of a single daemon (tincd) for
+both the receiving and sending end, it has become largely
+runtime-configurable&mdash;in short, it has become a full-fledged
+professional package.
+</p>
+<a name="index-traditional-VPNs"></a>
+<a name="index-scalability"></a>
+<p>Tinc also allows more than two sites to connect to eachother and form a single VPN.
+Traditionally VPNs are created by making tunnels, which only have two endpoints.
+Larger VPNs with more sites are created by adding more tunnels.
+Tinc takes another approach: only endpoints are specified,
+the software itself will take care of creating the tunnels.
+This allows for easier configuration and improved scalability.
+</p>
+<p>A lot can&mdash;and will be&mdash;changed. We have a number of things that we would like to
+see in the future releases of tinc.  Not everything will be available in
+the near future.  Our first objective is to make tinc work perfectly as
+it stands, and then add more advanced features.
+</p>
+<p>Meanwhile, we&rsquo;re always open-minded towards new ideas.  And we&rsquo;re
+available too.
+</p>
+
+<hr size="6">
+<a name="Supported-platforms"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#tinc" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_2.html#Preparations" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_2.html#Preparations" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Supported-platforms-1"></a>
+<h2 class="section">1.3 Supported platforms</h2>
+
+<a name="index-platforms"></a>
+<p>Tinc has been verified to work under Linux, FreeBSD, OpenBSD, NetBSD, MacOS/X (Darwin), Solaris, and Windows (both natively and in a Cygwin environment),
+with various hardware architectures.  These are some of the platforms
+that are supported by the universal tun/tap device driver or other virtual network device drivers.
+Without such a driver, tinc will most
+likely compile and run, but it will not be able to send or receive data
+packets.
+</p>
+<a name="index-release"></a>
+<p>For an up to date list of supported platforms, please check the list on
+our website:
+<a href="http://www.tinc-vpn.org/platforms/">http://www.tinc-vpn.org/platforms/</a>.
+</p>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Introduction" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_2.html#Preparations" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated on <i>October 19, 2013</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

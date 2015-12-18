@@ -45,7 +45,7 @@ The UltraVNC settings that come from this repo DO NOT contain a password. Instea
 There are three scripts requried to setup the system:
 
 1. Set cscript as the default vbs script interpreter: From the command line: **cscript //h:csccript //s**
-1. Create a directory: **C:\Util**, and copy all three *.vbs* scripts into that directory.
+1. Create a directory: **C:\Util**, and copy all the contents of this repo there.
 1. Add C:\Util to the path of your system (we need access to utils that are in there!)
 1. Run the utils in the following order:
 - get-coreutils.vbs (Downloads GNU Core Utils so you can have access to wget and unzip for downloads)

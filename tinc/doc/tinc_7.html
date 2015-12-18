@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on October 19, 2013 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>tinc Manual: 7. Platform specific information</title>
+
+<meta name="description" content="tinc Manual: 7. Platform specific information">
+<meta name="keywords" content="tinc Manual: 7. Platform specific information">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Platform-specific-information"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="tinc_6.html#Security-issues" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Interface-configuration" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc_6.html#Technical-information" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_8.html#About-us" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Platform-specific-information-1"></a>
+<h1 class="chapter">7. Platform specific information</h1>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Interface-configuration">7.1 Interface configuration</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Routes">7.2 Routes</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Interface-configuration"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Platform-specific-information" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Routes" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Platform-specific-information" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Platform-specific-information" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_8.html#About-us" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Interface-configuration-1"></a>
+<h2 class="section">7.1 Interface configuration</h2>
+
+<p>When configuring an interface, one normally assigns it an address and a
+netmask.  The address uniquely identifies the host on the network attached to
+the interface.  The netmask, combined with the address, forms a subnet.  It is
+used to add a route to the routing table instructing the kernel to send all
+packets which fall into that subnet to that interface.  Because all packets for
+the entire VPN should go to the virtual network interface used by tinc, the
+netmask should be such that it encompasses the entire VPN.
+</p>
+<p>For IPv4 addresses:
+</p>
+<table>
+<tr><td>Linux</td><td><code>ifconfig</code> <var>interface</var> <var>address</var> <code>netmask</code> <var>netmask</var></td></tr>
+<tr><td>Linux iproute2</td><td><code>ip addr add</code> <var>address</var><code>/</code><var>prefixlength</var> <code>dev</code> <var>interface</var></td></tr>
+<tr><td>FreeBSD</td><td><code>ifconfig</code> <var>interface</var> <var>address</var> <code>netmask</code> <var>netmask</var></td></tr>
+<tr><td>OpenBSD</td><td><code>ifconfig</code> <var>interface</var> <var>address</var> <code>netmask</code> <var>netmask</var></td></tr>
+<tr><td>NetBSD</td><td><code>ifconfig</code> <var>interface</var> <var>address</var> <code>netmask</code> <var>netmask</var></td></tr>
+<tr><td>Solaris</td><td><code>ifconfig</code> <var>interface</var> <var>address</var> <code>netmask</code> <var>netmask</var></td></tr>
+<tr><td>Darwin (MacOS/X)</td><td><code>ifconfig</code> <var>interface</var> <var>address</var> <code>netmask</code> <var>netmask</var></td></tr>
+<tr><td>Windows</td><td><code>netsh interface ip set address</code> <var>interface</var> <code>static</code> <var>address</var> <var>netmask</var></td></tr>
+</table>
+
+<p>For IPv6 addresses:
+</p>
+<table>
+<tr><td>Linux</td><td><code>ifconfig</code> <var>interface</var> <code>add</code> <var>address</var><code>/</code><var>prefixlength</var></td></tr>
+<tr><td>FreeBSD</td><td><code>ifconfig</code> <var>interface</var> <code>inet6</code> <var>address</var> <code>prefixlen</code> <var>prefixlength</var></td></tr>
+<tr><td>OpenBSD</td><td><code>ifconfig</code> <var>interface</var> <code>inet6</code> <var>address</var> <code>prefixlen</code> <var>prefixlength</var></td></tr>
+<tr><td>NetBSD</td><td><code>ifconfig</code> <var>interface</var> <code>inet6</code> <var>address</var> <code>prefixlen</code> <var>prefixlength</var></td></tr>
+<tr><td>Solaris</td><td><code>ifconfig</code> <var>interface</var> <code>inet6 plumb up</code></td></tr>
+<tr><td></td><td><code>ifconfig</code> <var>interface</var> <code>inet6 addif</code> <var>address</var> <var>address</var></td></tr>
+<tr><td>Darwin (MacOS/X)</td><td><code>ifconfig</code> <var>interface</var> <code>inet6</code> <var>address</var> <code>prefixlen</code> <var>prefixlength</var></td></tr>
+<tr><td>Windows</td><td><code>netsh interface ipv6 add address</code> <var>interface</var> <code>static</code> <var>address</var>/<var>prefixlength</var></td></tr>
+</table>
+
+<p>On some platforms, when running tinc in switch mode, the VPN interface must be set to tap mode with an ifconfig command:
+</p>
+<table>
+<tr><td>OpenBSD</td><td><code>ifconfig</code> <var>interface</var> <code>link0</code></td></tr>
+</table>
+
+<p>On Linux, it is possible to create a persistent tun/tap interface which will
+continue to exist even if tinc quit, although this is normally not required.
+It can be useful to set up a tun/tap interface owned by a non-root user, so
+tinc can be started without needing any root privileges at all.
+</p>
+<table>
+<tr><td>Linux</td><td><code>ip tuntap add dev</code> <var>interface</var> <code>mode</code> <var>tun|tap</var> <code>user</code> <var>username</var></td></tr>
+</table>
+
+<hr size="6">
+<a name="Routes"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Interface-configuration" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_8.html#About-us" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Platform-specific-information" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Platform-specific-information" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_8.html#About-us" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Routes-1"></a>
+<h2 class="section">7.2 Routes</h2>
+
+<p>In some cases it might be necessary to add more routes to the virtual network
+interface.  There are two ways to indicate which interface a packet should go
+to, one is to use the name of the interface itself, another way is to specify
+the (local) address that is assigned to that interface (<var>local_address</var>). The
+former way is unambiguous and therefore preferable, but not all platforms
+support this.
+</p>
+<p>Adding routes to IPv4 subnets:
+</p>
+<table>
+<tr><td>Linux</td><td><code>route add -net</code> <var>network_address</var> <code>netmask</code> <var>netmask</var> <var>interface</var></td></tr>
+<tr><td>Linux iproute2</td><td><code>ip route add</code> <var>network_address</var><code>/</code><var>prefixlength</var> <code>dev</code> <var>interface</var></td></tr>
+<tr><td>FreeBSD</td><td><code>route add</code> <var>network_address</var><code>/</code><var>prefixlength</var> <var>local_address</var></td></tr>
+<tr><td>OpenBSD</td><td><code>route add</code> <var>network_address</var><code>/</code><var>prefixlength</var> <var>local_address</var></td></tr>
+<tr><td>NetBSD</td><td><code>route add</code> <var>network_address</var><code>/</code><var>prefixlength</var> <var>local_address</var></td></tr>
+<tr><td>Solaris</td><td><code>route add</code> <var>network_address</var><code>/</code><var>prefixlength</var> <var>local_address</var> <code>-interface</code></td></tr>
+<tr><td>Darwin (MacOS/X)</td><td><code>route add</code> <var>network_address</var><code>/</code><var>prefixlength</var> <var>local_address</var></td></tr>
+<tr><td>Windows</td><td><code>netsh routing ip add persistentroute</code> <var>network_address</var> <var>netmask</var> <var>interface</var> <var>local_address</var></td></tr>
+</table>
+
+<p>Adding routes to IPv6 subnets:
+</p>
+<table>
+<tr><td>Linux</td><td><code>route add -A inet6</code> <var>network_address</var><code>/</code><var>prefixlength</var> <var>interface</var></td></tr>
+<tr><td>Linux iproute2</td><td><code>ip route add</code> <var>network_address</var><code>/</code><var>prefixlength</var> <code>dev</code> <var>interface</var></td></tr>
+<tr><td>FreeBSD</td><td><code>route add -inet6</code> <var>network_address</var><code>/</code><var>prefixlength</var> <var>local_address</var></td></tr>
+<tr><td>OpenBSD</td><td><code>route add -inet6</code> <var>network_address</var> <var>local_address</var> <code>-prefixlen</code> <var>prefixlength</var></td></tr>
+<tr><td>NetBSD</td><td><code>route add -inet6</code> <var>network_address</var> <var>local_address</var> <code>-prefixlen</code> <var>prefixlength</var></td></tr>
+<tr><td>Solaris</td><td><code>route add -inet6</code> <var>network_address</var><code>/</code><var>prefixlength</var> <var>local_address</var> <code>-interface</code></td></tr>
+<tr><td>Darwin (MacOS/X)</td><td>?</td></tr>
+<tr><td>Windows</td><td><code>netsh interface ipv6 add route</code> <var>network address</var>/<var>prefixlength</var> <var>interface</var></td></tr>
+</table>
+
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Platform-specific-information" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="tinc_8.html#About-us" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="tinc.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_9.html#Concept-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="tinc_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated on <i>October 19, 2013</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

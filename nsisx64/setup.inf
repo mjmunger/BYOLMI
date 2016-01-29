@@ -1,8 +1,0 @@
-[Setup]
-Lang=en
-Dir=C:\BYOLMI\UltraVNC
-Group=UltraVNC
-NoIcons=0
-SetupType=full
-Components=ultravnc_server,ultravnc_viewer
-Tasks=installservice,startservice,desktopicon,associate

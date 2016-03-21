@@ -31,7 +31,7 @@ Function getAdapaterCommand()
 			Case 13 strAdapterType = "1394" 
 		End Select 
 	  
-		IF objItem.Description = "TAP-Win32 Adapter V9" Then
+		IF objItem.Description = "TAP-Windows Adapter V9" Then
 			
 			'Wscript.Echo "Adapter Type Id: " & strAdapterType 
 			'Wscript.Echo "AutoSense: " & objItem.AutoSense 

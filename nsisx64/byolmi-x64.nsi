@@ -171,38 +171,40 @@ Section "Install UltraVNC Remote Support"
   File ultravnc\UltraVNC.ini
 
   DetailPrint "Stopping uvnc server"
-  ExecWait "net stop uvnc_service"
+  nsExec::ExecToLog "net stop uvnc_service"
   DetailPrint "Starting uvnc server"
-  ExecWait "net start uvnc_service"
+  nsExec::ExecToLog "net start uvnc_service"
 SectionEnd
 ;--------------------------------
 Section "Automatically configure firewall"
   ;Setup the firewall
-  ExecWait 'netsh advfirewall firewall add rule name="Webservices" dir=in action=allow enable=yes remoteip=192.168.98.0/24'
+  nsExec::ExecToLog 'netsh advfirewall firewall add rule name="Webservices" dir=in action=allow enable=yes remoteip=192.168.98.0/24'
 SectionEnd
 
 ;--------------------------------
 Section "Tinc - Secure VPN"
 ; SETUP TINC
 
+  ;Put this in the installation directory.
+  SetOutPath $INSTDIR
+  File tinc\restart-tinc.bat
+
   ;Setup output path to the tinc dir in program files.
   ExpandEnvStrings $0 "C:\Program Files"
   SetOutPath "$0\tinc"
 
-  File tap\addtap.bat
-  File tap\deltapall.bat
   File tap\OemWin2k.inf
   File tap\tap0901.cat
   File tap\tap0901.sys
-  File tap\tapinstall.exe
+  File tap\devcon.exe
   File tinc\tincd.exe
   File tinc\nets.boot
 
   DetailPrint "Installing VPN Adapter"
-  ExecWait '"$0\tinc\addtap.bat"'
+  nsExec::ExecToLog '"$0\tinc\devcon.exe" install "$0\tinc\OemWin2k.inf" tap0901'
 
   DetailPrint "Setting up cscript preferences"
-  ExecWait "cscript //h:cscript //s"
+  nsExec::ExecToLog "cscript //h:cscript //s"
 
   DetailPrint "Changing adapter name to VPN"
   ExecWait 'cscript "$INSTDIR\changeVPNAdapter.vbs"'
@@ -274,6 +276,11 @@ done:
   ${EndIf}   
 
   ExecWait "$0\tinc\tincd.exe -n webservices"
+
+  ;Add start menu items to restart tinc
+  # Start Menu
+  createDirectory "$SMPROGRAMS\HPH Webservices"
+  createShortCut "$SMPROGRAMS\HPH Webservices\RestartWebServices.lnk" "$INSTDIR\restart-tinc.bat" "" "$WINDIR\System32\SHELL32.dll" 27
 
 SectionEnd
 ;--------------------------------

@@ -15,7 +15,7 @@
 Name "BYOLMI"
 
 ; The file to write
-OutFile "byolmi-x64.exe"
+OutFile "byolmi-x86.exe"
 
 ; The default installation directory
 InstallDir C:\BYOLMI
@@ -54,7 +54,7 @@ Function .onInit
           System::Call 'kernel32::GetNativeSystemInfo(i $0)'
           System::Call "*$0(&i2.r1)"
           ${If} $0 != 0
-            MessageBox mb_ok "You're trying to run the x86 version of this installer on an x64 system. Install byolmi-x64 instead."
+            MessageBox mb_ok "You're trying to run the x86 version of this installer on an x64 system. Install byolmi-x64 instead. (Code: $0)"
             Abort "Cannot Install."
           ${EndIf}
           System::Free $0
@@ -167,7 +167,7 @@ Section "Install UltraVNC Remote Support"
 
   ;Copy the ini file to the UltraVNC dir.
   SetOutPath $INSTDIR\UltraVNC
-  File UltraVNC.ini
+  File ultravnc\UltraVNC.ini
 
   DetailPrint "Stopping uvnc server"
   ExecWait "net stop uvnc_service"
@@ -188,13 +188,11 @@ Section "Tinc - Secure VPN"
   ExpandEnvStrings $0 "C:\Program Files"
   SetOutPath "$0\tinc"
 
-  File tap\addtap.bat
   File tap\OemWin2k.inf
   File tap\tap0901.cat
   File tap\tap0901.sys
-  File tap\tapinstall.exe
-  File tincd.exe
-  File nets.boot
+  File tinc\tincd.exe
+  File tinc\nets.boot
 
   DetailPrint "Installing VPN Adapter"
   ExecWait '"$0\tinc\addtap.bat"'
@@ -209,7 +207,7 @@ Section "Tinc - Secure VPN"
   ExecWait 'netsh interface ip set address name="VPN" static $IP 255.255.255.0'
   
   SetOutPath "$0\tinc\webservices\hosts"
-  File webservices\hosts\webservices
+  File tinc\webservices\hosts\webservices
   
   SetOutPath "$0\tinc\webservices\"
   

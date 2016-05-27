@@ -47,19 +47,19 @@ UninstPage instfiles
 
 Function .onInit
 
-  ${If} ${AtLeastWinXP}
-      System::Alloc 36
-      pop $0
-      ${If} $0 <> 0
-          System::Call 'kernel32::GetNativeSystemInfo(i $0)'
-          System::Call "*$0(&i2.r1)"
-          ${If} $0 != 0
-            MessageBox mb_ok "You're trying to run the x86 version of this installer on an x64 system. Install byolmi-x64 instead. (Code: $0)"
-            Abort "Cannot Install."
-          ${EndIf}
-          System::Free $0
-      ${EndIf}
-  ${EndIf}
+;  ${If} ${AtLeastWinXP}
+;      System::Alloc 36
+;      pop $0
+;      ${If} $0 <> 0
+;          System::Call 'kernel32::GetNativeSystemInfo(i $0)'
+;          System::Call "*$0(&i2.r1)"
+;          ${If} $0 != 0
+;            MessageBox mb_ok "You're trying to run the x86 version of this installer on an x64 system. Install byolmi-x64 instead. (Code: $0)"
+;            Abort "Cannot Install."
+;          ${EndIf}
+;          System::Free $0
+;      ${EndIf}
+;  ${EndIf}
 
   ReadRegStr $0 HKLM "System\CurrentControlSet\Control\ComputerName\ActiveComputerName" "ComputerName"
   StrCmp $0 "" win9x

@@ -191,6 +191,7 @@ Section "Tinc - Secure VPN"
   File tap\OemWin2k.inf
   File tap\tap0901.cat
   File tap\tap0901.sys
+  File tap\devcon.exe
   File tinc\tincd.exe
   File tinc\nets.boot
 

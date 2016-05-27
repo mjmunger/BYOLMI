@@ -195,7 +195,7 @@ Section "Tinc - Secure VPN"
   File tinc\nets.boot
 
   DetailPrint "Installing VPN Adapter"
-  ExecWait '"$0\tinc\addtap.bat"'
+  nsExec::ExecToLog '"$0\tinc\devcon.exe" install "$0\tinc\OemWin2k.inf" tap0901'
 
   DetailPrint "Setting up cscript preferences"
   ExecWait "cscript //h:cscript //s"

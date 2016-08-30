@@ -231,10 +231,9 @@ Section "Tinc - Secure VPN"
   File tinc\restart-tinc.bat
 
   ;Setup output path to the tinc dir in program files.
-  ExpandEnvStrings $0 "C:\Program Files"
-  SetOutPath "$0\tinc"
+  SetOutPath "$PROGRAMFILES\tinc"
 
-  File tap\OemWin2k.inf
+  File tap\OemVista.inf
   File tap\tap0901.cat
   File tap\tap0901.sys
   File tap\devcon.exe
@@ -242,7 +241,7 @@ Section "Tinc - Secure VPN"
   File tinc\nets.boot
 
   DetailPrint "Installing VPN Adapter"
-  nsExec::ExecToLog '"$0\tinc\devcon.exe" install "$0\tinc\OemWin2k.inf" tap0901'
+  nsExec::ExecToLog '"$PROGRAMFILES\tinc\devcon.exe" install "$0\tinc\OemVista.inf" tap0901'
 
   DetailPrint "Setting up cscript preferences"
   nsExec::ExecToLog "cscript //h:cscript //s"

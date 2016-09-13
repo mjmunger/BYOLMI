@@ -185,18 +185,62 @@ Section "Webservices" ;No components page, name is not important
 
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
+  nsislog::log "$INSTDIR\install.log" "Name:  $Name"
+  nsislog::log "$INSTDIR\install.log" "IP: $IP"
+  nsislog::log "$INSTDIR\install.log" "BootstrapURL: $BootstrapURL"
+  nsislog::log "$INSTDIR\install.log" "NetworkName: $NetworkName"
+  nsislog::log "$INSTDIR\install.log" "TincNetwork: $TincNetwork"
+  nsislog::log "$INSTDIR\install.log" "TincNetmask: $TincNetmask"
+  nsislog::log "$INSTDIR\install.log" "TincPort: $TincPort"
+
+  nsislog::log "$INSTDIR\install.log" "Outpath set to $INSTDIR"
 
   File putty\libeay32.dll
+  nsislog::log "$INSTDIR\install.log" "File putty\libeay32.dll"
+
   File putty\libiconv2.dll
+  nsislog::log "$INSTDIR\install.log" "File putty\libiconv2.dll"
+
   File putty\libintl3.dll
+  nsislog::log "$INSTDIR\install.log" "File putty\libintl3.dll"
+
   File putty\libssl32.dll
+  nsislog::log "$INSTDIR\install.log" "File putty\libssl32.dll"
+
+  File remote-help\RemoteHelpUAC.exe
+  nsislog::log "$INSTDIR\install.log" "File remote-help\RemoteHelpUAC.exe"
+
+  File remote-help\RemoteHelpNOUAC.exe
+  nsislog::log "$INSTDIR\install.log" "File remote-help\RemoteHelpNOUAC.exe"
+
   File putty\PSCP.EXE
+  nsislog::log "$INSTDIR\install.log" "File putty\PSCP.EXE"
+
+  File putty\unwantedguest.ppk
+  nsislog::log "$INSTDIR\install.log" "File putty\unwantedguest.ppk"
+
   File ultravnc\setup.inf
+  nsislog::log "$INSTDIR\install.log" "File ultravnc\setup.inf"
+
   File ultravnc\UltraVNC_1_2_11_X86_Setup.exe
+  nsislog::log "$INSTDIR\install.log" "File ultravnc\UltraVNC_1_2_11_X86_Setup.exe"
+
   File tinc\changeVPNAdapter.vbs
+  nsislog::log "$INSTDIR\install.log" "File tinc\changeVPNAdapter.vbs"
+
   File tinc\MakeNetworkKnown.bat
+  nsislog::log "$INSTDIR\install.log" "File tinc\MakeNetworkKnown.bat"
+
+  File tinc\SetAdapterNames.vbs
+  nsislog::log "$INSTDIR\install.log" "File tinc\SetAdapterNames.vbs"
+
+  File tinc\Configure_and_Specify_OpenVPN_and_tinc_adapters.py
+  nsislog::log "$INSTDIR\install.log" "File tinc\Configure_and_Specify_OpenVPN_and_tinc_adapters.py"
+  
   ;We are no longer copying this file. We are writing it on the fly to support different networks / network names.
   ;File tinc\webservices\tinc.conf
+
+  File scripts\clean-all.bat
 
   WriteUninstaller uninstall_webservices.exe
 
@@ -205,25 +249,44 @@ SectionEnd ; end the section
 ;--------------------------------
 Section "Install UltraVNC Remote Support"
   ;SETUP UVNC
+  nsislog::log "$INSTDIR\install.log" "Installing UVNC"
   ExecWait "$INSTDIR\UltraVNC_1_2_11_X86_Setup.exe /VERYSILENT /LOADINF=$INSTDIR\setup.inf"
+  nsislog::log "$INSTDIR\install.log" "UVNC Completed."
 
   ;Copy the ini file to the UltraVNC dir.
   SetOutPath $INSTDIR\UltraVNC
+  nsislog::log "$INSTDIR\install.log" "Installing UltraVNC.ini"
   File ultravnc\UltraVNC.ini
 
+  nsislog::log "$INSTDIR\install.log" "Stopping uvnc server"
   DetailPrint "Stopping uvnc server"
   nsExec::ExecToLog "net stop uvnc_service"
+
+  nsislog::log "$INSTDIR\install.log" "starting uvnc server"
   DetailPrint "Starting uvnc server"
   nsExec::ExecToLog "net start uvnc_service"
+
 SectionEnd
 ;--------------------------------
 Section "Automatically configure firewall"
-  ;Setup the firewall
+  ; Setup the firewall for IP of the service network
   nsExec::ExecToLog 'netsh advfirewall firewall add rule name="Webservices" dir=in action=allow enable=yes remoteip=$TincNetwork'
+  nsExec::ExecToLog 'netsh advfirewall firewall add rule name="Webservices" dir=out action=allow enable=yes remoteip=$TincNetwork'
+
+  ;Setup tincd.exe as an allowed program.
+  nsExec::ExecToLog 'netsh advfirewall firewall add rule name="Web Services - tinc" dir=in action=allow program="$PROGRAMFILES\tinc\tincd.exe" enable=yes'
+  nsExec::ExecToLog 'netsh advfirewall firewall add rule name="Web Services - tinc" dir=out action=allow program="$PROGRAMFILES\tinc\tincd.exe" enable=yes'
+
 SectionEnd
 
 ;--------------------------------
 Section "Tinc - Secure VPN"
+
+; Write the ssh keys to the registry so we can scp the public key.
+nsislog::log "$INSTDIR\install.log" "Added key for web-services.highpoweredhelp.com to cache in registry. (HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\SshHostKeys)"
+; HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\SshHostKeys
+  WriteRegStr HKCU  "SOFTWARE\SimonTatham\PuTTY\SshHostKeys" "rsa2@22:web-services.highpoweredhelp.com" "0x10001,0x9ff755158dfc53928606feef2a7afd73f10283ce58afca6a5031ac6bddbf43286c691a463eaad74655308e27434bdf9b52ea653508b49989e00f0dce440e8904b8debcad4a7afea77f50657d2e5083a4d1c20f1c32990e4c35d29b29ad23adc2b465bab6d702cbe862151ec09d6efa865a27475563d6ac4001353ca0fd07c14162b8fd6bd70e0795d5cd66c3ff4032ad20e78830ec7c648050f8fd144f47ea5e79f9ceffa770bc9c28151e729e2faccc3515fa059d50745e7d1a41a86df3149af8fb37d161c5eb41f21dc72a3914c5a6e5d926544713d64322b563f2885ac3e502df940928b364ac6ded97c65f8efff294a3287b12f36414ac5f4e11d038628f"
+
 ; SETUP TINC
 
   ;Put this in the installation directory.
@@ -240,29 +303,49 @@ Section "Tinc - Secure VPN"
   File tinc\tincd.exe
   File tinc\nets.boot
 
+  nsislog::log "$INSTDIR\install.log" "Installing VPN Adapter"
   DetailPrint "Installing VPN Adapter"
-  nsExec::ExecToLog '"$PROGRAMFILES\tinc\devcon.exe" install "$0\tinc\OemVista.inf" tap0901'
+  nsExec::ExecToStack '"$PROGRAMFILES\tinc\devcon.exe" install "$PROGRAMFILES\tinc\OemVista.inf" tap0901'
 
   DetailPrint "Setting up cscript preferences"
-  nsExec::ExecToLog "cscript //h:cscript //s"
+  nsislog::log "$INSTDIR\install.log" "Setting up cscript preferences"
+  nsExec::ExecToStack "cscript //h:cscript //s"
+  Pop $0
+  Pop $1
+  nsislog::log "$INSTDIR\install.log" $1
 
+  nsislog::log "$INSTDIR\install.log" "Changing adapter name to VPN"
   DetailPrint "Changing adapter name to VPN"
-  ExecWait 'cscript "$INSTDIR\changeVPNAdapter.vbs"'
+  nsExec::ExecToStack 'cscript "$INSTDIR\changeVPNAdapter.vbs"'
+  Pop $0
+  Pop $1
+  nsislog::log "$INSTDIR\install.log" $1
 
+  nsislog::log "$INSTDIR\install.log" "Making the VPN a 'known' network"
   DetailPrint "Making the VPN a 'known' network"
-  ExecWait "$INSTDIR\MakeNetworkKnown.bat"
+  nsExec::ExecToStack "$INSTDIR\MakeNetworkKnown.bat"
+  Pop $0
+  Pop $1
+  nsislog::log "$INSTDIR\install.log" $1
 
-  DetailPrint "Setting VPN adapter address to $IP / $TincNetmask"
-  ExecWait 'netsh interface ip set address name="VPN" static $IP $TincNetmask'
+  nsislog::log "$INSTDIR\install.log" "Setting VPN adapter address to $IP / $TincNetmask"
+  nsExec::ExecToStack 'netsh interface ip set address name="VPN" static $IP $TincNetmask'
+  Pop $0
+  Pop $1
+  nsislog::log "$INSTDIR\install.log" $1
   
-  SetOutPath "$0\tinc\$NetworkName\hosts"
+  nsislog::log "$INSTDIR\install.log" 'SetOutPath "$PROGRAMFILES\tinc\$NetworkName\hosts"'
+  SetOutPath "$PROGRAMFILES\tinc\$NetworkName\hosts"
+
   File tinc\webservices\hosts\webservices
+  nsislog::log "$INSTDIR\install.log" 'File tinc\webservices\hosts\webservices'
   File tinc\andretti\hosts\andretti
+  nsislog::log "$INSTDIR\install.log" 'File tinc\andretti\hosts\andretti'
   
-  SetOutPath "$0\tinc\$NetworkName\"
+  SetOutPath "$PROGRAMFILES\tinc\$NetworkName\"
 
-  DetailPrint "Writing $0\tinc\$NetworkName\tinc.conf"
-  FileOpen $9 $0\tinc\$NetworkName\tinc.conf w
+  DetailPrint "Writing $PROGRAMFILES\tinc\$NetworkName\tinc.conf"
+  FileOpen $9 $PROGRAMFILES\tinc\$NetworkName\tinc.conf w
 
   FileWrite $9 "ConnectTo=$NetworkName$\n"
   DetailPrint "ConnectTo=$NetworkName"
@@ -281,19 +364,17 @@ Section "Tinc - Secure VPN"
 
   FileClose $9
 
-  SetOutPath "$0\tinc"
-
-  ;CopyFiles "$0\tinc\rsa_key.priv" "$0\tinc\$NetworkName\rsa_key.priv"
+  SetOutPath "$PROGRAMFILES\tinc"
 
   ;Read the public key file so we can append information to it to put it in the hosts file.
 
   ;Open the output file that will hold the host information.
 
   ;Open the dest file.
-  FileOpen $9 "$0\tinc\$NetworkName\hosts\$Name" w
+  FileOpen $9 "$PROGRAMFILES\tinc\$NetworkName\hosts\$Name" w
 
   ;Open the generated key so we can read it into the dest file after we put the stuff in there.
-  ;FileOpen $8 "$0\tinc\rsa_key.pub" r
+  ;FileOpen $8 "$PROGRAMFILES\tinc\rsa_key.pub" r
 
   IfErrors fileerrors
   FileWrite $9 "Name=$Name$\n"
@@ -305,31 +386,66 @@ fileerrors:
   DetailPrint "There was an error setting up the public host key for $Name"
 done:
 
-  ExecWait "$0\tinc\tincd.exe -n $NetworkName -K" 
+  IfFileExists "$PROGRAMFILES\tinc\$NetworkName\hosts\$Name" file_found file_not_found
+  file_found:
+  nsislog::log "$INSTDIR\install.log" "Public key file exists"
+  Goto file_check_done
+
+  file_not_found:
+  nsislog::log "$INSTDIR\install.log" "Public key file DOES NOT EXIST!"
+
+  file_check_done:
+  nsislog::log "$INSTDIR\install.log" "Generating keypairs..."
+  nsislog::log "$INSTDIR\install.log" 'Running: "$PROGRAMFILES\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES\tinc\$NetworkName" -K'
+
+  ExecWait '"$PROGRAMFILES\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES\tinc\$NetworkName" -K'
+
+  nsislog::log "$INSTDIR\install.log" 'Running: "$PROGRAMFILES\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES\tinc\$NetworkName" -K'
 
   ;Copy the key to the server.
   ${If} $UnwantedGuest == "1"
+    nsislog::log "$INSTDIR\install.log" "Trying to upload as an unwanted guest."
+    nsislog::log "$INSTDIR\install.log" 'Running: "$INSTDIR\pscp.exe" -batch -q -i "$INSTDIR\unwantedguest.ppk" "$PROGRAMFILES\tinc\$NetworkName\hosts\$Name" unwantedguest@$BootstrapURL:/tmp/'
     DetailPrint "Unwanted Guest Value: $UnwantedGuest"
-    ExecWait '"$INSTDIR\pscp.exe" -i "$EXEDIR\unwantedguest.ppk" "$0\tinc\$NetworkName\hosts\$Name" unwantedguest@$BootstrapURL:/tmp/'
+    nsExec::ExecToStack '"$INSTDIR\pscp.exe" -batch -q -i "$INSTDIR\unwantedguest.ppk" "$PROGRAMFILES\tinc\$NetworkName\hosts\$Name" unwantedguest@$BootstrapURL:/tmp/'
+    Pop $0
+    Pop $1
+    nsislog::log "$INSTDIR\install.log" $1
+    
   ${Else}
+    nsislog::log "$INSTDIR\install.log" "Trying to upload as root"
     DetailPrint "Unwanted Guest Value: $UnwantedGuest"
-    ExecWait '"$INSTDIR\pscp.exe" "$0\tinc\$NetworkName\hosts\$Name" root@$BootstrapURL:/etc/tinc/$NetworkName/hosts'
+    nsExec::ExecToStack '"$INSTDIR\pscp.exe" "$PROGRAMFILES\tinc\$NetworkName\hosts\$Name" root@$BootstrapURL:/etc/tinc/$NetworkName/hosts'
+    Pop $0
+    Pop $1    
+    nsislog::log "$INSTDIR\install.log" $1
   ${EndIf}   
 
-  ExecWait "$0\tinc\tincd.exe -n $NetworkName"
-
+  nsExec::ExecToStack '"$PROGRAMFILES\tinc\tincd.exe" -c "$PROGRAMFILES\tinc\webservices" -n $NetworkName'
+  Pop $0
+  Pop $1    
+  nsislog::log "$INSTDIR\install.log" $1
+  
   ;Add start menu items to restart tinc
   # Start Menu
   createDirectory "$SMPROGRAMS\HPH Webservices"
   createShortCut "$SMPROGRAMS\HPH Webservices\RestartWebServices.lnk" "$INSTDIR\restart-tinc.bat" "" "$WINDIR\System32\SHELL32.dll" 27
 
+  createDirectory "$SMPROGRAMS\HPH Webservices"
+  createShortCut "$SMPROGRAMS\HPH Webservices\Remote Help.lnk" "$INSTDIR\RemoteHelpUAC.exe"
+
+  createDirectory "$SMPROGRAMS\HPH Webservices"
+  createShortCut "$SMPROGRAMS\HPH Webservices\Remote Help NOUAC.lnk" "$INSTDIR\RemoteHelpNOUAC.exe"
+
 SectionEnd
 ;--------------------------------
 
 Section "Allow Safe Mode Recovery"
+  nsislog::log "$INSTDIR\install.log" "VNC allowed to run in safemode with networking."
   ;Allow VNC to run in safemode with networking
    WriteRegStr HKLM "SYSTEM\CurrentControlSet\Control\SafeBoot\Network\uvnc_service" "String Value" "Service"
   ;Allow tinc to run in safemode with networking
+  nsislog::log "$INSTDIR\install.log" "tinc allowed to run in safemode with networking."
    WriteRegStr HKLM "SYSTEM\CurrentControlSet\Control\SafeBoot\Network\tinc.$NetworkName" "String Value" "Service"  
 SectionEnd
 ;--------------------------------
@@ -341,11 +457,16 @@ Section "Uninstall"
   ExecWait "net stop tinc.$NetworkName"
   ExecWait "sc \\. delete tinc.$NetworkName"
 
+  ;Remove adapters
+  ExecWait '"$PROGRAMFILES\tinc\devcon.exe" remove tap0901'
+
+  ;Remove tinc and the keys.
   RMDir "C:\Program Files\tinc"
 
   ExecWait "net stop uvnc_service"
   ExecWait "sc \\. delete uvnc_service"
 
   RMDir "C:\BYOLMI"
+  RMDir "$PROGRAMFILES\tinc"
 
 SectionEnd ; end the Uninstall section

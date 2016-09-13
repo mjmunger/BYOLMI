@@ -240,6 +240,8 @@ Section "Webservices" ;No components page, name is not important
   ;We are no longer copying this file. We are writing it on the fly to support different networks / network names.
   ;File tinc\webservices\tinc.conf
 
+  File scripts\clean-all.bat
+
   WriteUninstaller uninstall_webservices.exe
 
 SectionEnd ; end the section
@@ -455,11 +457,16 @@ Section "Uninstall"
   ExecWait "net stop tinc.$NetworkName"
   ExecWait "sc \\. delete tinc.$NetworkName"
 
+  ;Remove adapters
+  ExecWait '"$PROGRAMFILES\tinc\devcon.exe" remove tap0901'
+
+  ;Remove tinc and the keys.
   RMDir "C:\Program Files\tinc"
 
   ExecWait "net stop uvnc_service"
   ExecWait "sc \\. delete uvnc_service"
 
   RMDir "C:\BYOLMI"
+  RMDir "$PROGRAMFILES\tinc"
 
 SectionEnd ; end the Uninstall section

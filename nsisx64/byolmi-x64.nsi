@@ -34,6 +34,7 @@ Var Name
 Var IP
 Var BootstrapURL
 Var NetworkName
+Var NetworkName2
 Var TincNetwork
 Var TincNetmask
 Var TincPort
@@ -86,6 +87,9 @@ done:
 
   ReadINIStr $0 "$EXEDIR\byolmi.ini" setup NetworkName
   StrCpy $NetworkName $0
+
+  ReadINIStr $0 "$EXEDIR\byolmi.ini" setup NetworkName2
+  StrCpy $NetworkName2 $0
 
   ReadINIStr $0 "$EXEDIR\byolmi.ini" setup UnwantedGuest
   StrCpy $UnwantedGuest $0
@@ -274,8 +278,8 @@ Section "Automatically configure firewall"
   nsExec::ExecToLog 'netsh advfirewall firewall add rule name="Webservices" dir=out action=allow enable=yes remoteip=$TincNetwork'
 
   ;Setup tincd.exe as an allowed program.
-  nsExec::ExecToLog 'netsh advfirewall firewall add rule name="Web Services - tinc" dir=in action=allow program="$PROGRAMFILES\tinc\tincd.exe" enable=yes'
-  nsExec::ExecToLog 'netsh advfirewall firewall add rule name="Web Services - tinc" dir=out action=allow program="$PROGRAMFILES\tinc\tincd.exe" enable=yes'
+  nsExec::ExecToLog 'netsh advfirewall firewall add rule name="Web Services - tinc" dir=in action=allow program="$PROGRAMFILES64\tinc\tincd.exe" enable=yes'
+  nsExec::ExecToLog 'netsh advfirewall firewall add rule name="Web Services - tinc" dir=out action=allow program="$PROGRAMFILES64\tinc\tincd.exe" enable=yes'
 
 SectionEnd
 
@@ -294,7 +298,7 @@ nsislog::log "$INSTDIR\install.log" "Added key for web-services.highpoweredhelp.
   File tinc\restart-tinc.bat
 
   ;Setup output path to the tinc dir in program files.
-  SetOutPath "$PROGRAMFILES\tinc"
+  SetOutPath "$PROGRAMFILES64\tinc"
 
   File tap\OemVista.inf
   File tap\tap0901.cat
@@ -305,7 +309,7 @@ nsislog::log "$INSTDIR\install.log" "Added key for web-services.highpoweredhelp.
 
   nsislog::log "$INSTDIR\install.log" "Installing VPN Adapter"
   DetailPrint "Installing VPN Adapter"
-  nsExec::ExecToStack '"$PROGRAMFILES\tinc\devcon.exe" install "$PROGRAMFILES\tinc\OemVista.inf" tap0901'
+  nsExec::ExecToStack '"$PROGRAMFILES64\tinc\devcon.exe" install "$PROGRAMFILES64\tinc\OemVista.inf" tap0901'
 
   DetailPrint "Setting up cscript preferences"
   nsislog::log "$INSTDIR\install.log" "Setting up cscript preferences"
@@ -334,22 +338,29 @@ nsislog::log "$INSTDIR\install.log" "Added key for web-services.highpoweredhelp.
   Pop $1
   nsislog::log "$INSTDIR\install.log" $1
   
-  nsislog::log "$INSTDIR\install.log" 'SetOutPath "$PROGRAMFILES\tinc\$NetworkName\hosts"'
-  SetOutPath "$PROGRAMFILES\tinc\$NetworkName\hosts"
+  nsislog::log "$INSTDIR\install.log" 'SetOutPath "$PROGRAMFILES64\tinc\$NetworkName\hosts"'
+  SetOutPath "$PROGRAMFILES64\tinc\$NetworkName\hosts"
 
-  File tinc\webservices\hosts\webservices
   nsislog::log "$INSTDIR\install.log" 'File tinc\webservices\hosts\webservices'
-  File tinc\andretti\hosts\andretti
-  nsislog::log "$INSTDIR\install.log" 'File tinc\andretti\hosts\andretti'
-  
-  SetOutPath "$PROGRAMFILES\tinc\$NetworkName\"
+  File tinc\webservices\hosts\webservices
 
-  DetailPrint "Writing $PROGRAMFILES\tinc\$NetworkName\tinc.conf"
-  FileOpen $9 $PROGRAMFILES\tinc\$NetworkName\tinc.conf w
+  nsislog::log "$INSTDIR\install.log" 'File tinc\webservices\hosts\webservices2'
+  File tinc\webservices\hosts\webservices2
+
+  ;File tinc\andretti\hosts\andretti
+  ;nsislog::log "$INSTDIR\install.log" 'File tinc\andretti\hosts\andretti'
+  
+  SetOutPath "$PROGRAMFILES64\tinc\$NetworkName\"
+
+  DetailPrint "Writing $PROGRAMFILES64\tinc\$NetworkName\tinc.conf"
+  FileOpen $9 $PROGRAMFILES64\tinc\$NetworkName\tinc.conf w
 
   FileWrite $9 "ConnectTo=$NetworkName$\n"
   DetailPrint "ConnectTo=$NetworkName"
   
+  FileWrite $9 "ConnectTo=$NetworkName2$\n"
+  DetailPrint "ConnectTo=$NetworkName2"
+
   FileWrite $9 "Interface=VPN$\n"
   DetailPrint "Interface=VPN"
 
@@ -364,29 +375,30 @@ nsislog::log "$INSTDIR\install.log" "Added key for web-services.highpoweredhelp.
 
   FileClose $9
 
-  SetOutPath "$PROGRAMFILES\tinc"
+  SetOutPath "$PROGRAMFILES64\tinc"
 
   ;Read the public key file so we can append information to it to put it in the hosts file.
 
   ;Open the output file that will hold the host information.
 
   ;Open the dest file.
-  FileOpen $9 "$PROGRAMFILES\tinc\$NetworkName\hosts\$Name" w
+  FileOpen $9 "$PROGRAMFILES64\tinc\$NetworkName\hosts\$Name" w
 
   ;Open the generated key so we can read it into the dest file after we put the stuff in there.
-  ;FileOpen $8 "$PROGRAMFILES\tinc\rsa_key.pub" r
+  ;FileOpen $8 "$PROGRAMFILES64\tinc\rsa_key.pub" r
 
   IfErrors fileerrors
   FileWrite $9 "Name=$Name$\n"
   FileWrite $9 "Subnet=$IP"
   ClearErrors
   FileClose $9
+
   Goto done
 fileerrors:
   DetailPrint "There was an error setting up the public host key for $Name"
 done:
 
-  IfFileExists "$PROGRAMFILES\tinc\$NetworkName\hosts\$Name" file_found file_not_found
+  IfFileExists "$PROGRAMFILES64\tinc\$NetworkName\hosts\$Name" file_found file_not_found
   file_found:
   nsislog::log "$INSTDIR\install.log" "Public key file exists"
   Goto file_check_done
@@ -396,18 +408,18 @@ done:
 
   file_check_done:
   nsislog::log "$INSTDIR\install.log" "Generating keypairs..."
-  nsislog::log "$INSTDIR\install.log" 'Running: "$PROGRAMFILES\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES\tinc\$NetworkName" -K'
+  nsislog::log "$INSTDIR\install.log" 'Running: "$PROGRAMFILES64\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES64\tinc\$NetworkName" -K'
 
-  ExecWait '"$PROGRAMFILES\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES\tinc\$NetworkName" -K'
+  ExecWait '"$PROGRAMFILES64\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES64\tinc\$NetworkName" -K'
 
-  nsislog::log "$INSTDIR\install.log" 'Running: "$PROGRAMFILES\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES\tinc\$NetworkName" -K'
+  nsislog::log "$INSTDIR\install.log" 'Running: "$PROGRAMFILES64\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES64\tinc\$NetworkName" -K'
 
   ;Copy the key to the server.
   ${If} $UnwantedGuest == "1"
     nsislog::log "$INSTDIR\install.log" "Trying to upload as an unwanted guest."
-    nsislog::log "$INSTDIR\install.log" 'Running: "$INSTDIR\pscp.exe" -batch -q -i "$INSTDIR\unwantedguest.ppk" "$PROGRAMFILES\tinc\$NetworkName\hosts\$Name" unwantedguest@$BootstrapURL:/tmp/'
+    nsislog::log "$INSTDIR\install.log" 'Running: "$INSTDIR\pscp.exe" -batch -q -i "$INSTDIR\unwantedguest.ppk" "$PROGRAMFILES64\tinc\$NetworkName\hosts\$Name" unwantedguest@$BootstrapURL:/tmp/'
     DetailPrint "Unwanted Guest Value: $UnwantedGuest"
-    nsExec::ExecToStack '"$INSTDIR\pscp.exe" -batch -q -i "$INSTDIR\unwantedguest.ppk" "$PROGRAMFILES\tinc\$NetworkName\hosts\$Name" unwantedguest@$BootstrapURL:/tmp/'
+    nsExec::ExecToStack '"$INSTDIR\pscp.exe" -batch -q -i "$INSTDIR\unwantedguest.ppk" "$PROGRAMFILES64\tinc\$NetworkName\hosts\$Name" unwantedguest@$BootstrapURL:/tmp/'
     Pop $0
     Pop $1
     nsislog::log "$INSTDIR\install.log" $1
@@ -415,13 +427,13 @@ done:
   ${Else}
     nsislog::log "$INSTDIR\install.log" "Trying to upload as root"
     DetailPrint "Unwanted Guest Value: $UnwantedGuest"
-    nsExec::ExecToStack '"$INSTDIR\pscp.exe" "$PROGRAMFILES\tinc\$NetworkName\hosts\$Name" root@$BootstrapURL:/etc/tinc/$NetworkName/hosts'
+    nsExec::ExecToStack '"$INSTDIR\pscp.exe" "$PROGRAMFILES64\tinc\$NetworkName\hosts\$Name" root@$BootstrapURL:/etc/tinc/$NetworkName/hosts'
     Pop $0
     Pop $1    
     nsislog::log "$INSTDIR\install.log" $1
   ${EndIf}   
 
-  nsExec::ExecToStack '"$PROGRAMFILES\tinc\tincd.exe" -c "$PROGRAMFILES\tinc\webservices" -n $NetworkName'
+  nsExec::ExecToStack '"$PROGRAMFILES64\tinc\tincd.exe" -c "$PROGRAMFILES64\tinc\webservices" -n $NetworkName'
   Pop $0
   Pop $1    
   nsislog::log "$INSTDIR\install.log" $1
@@ -440,6 +452,24 @@ done:
 SectionEnd
 ;--------------------------------
 
+;--------------------------------
+Section "Tinc - Watchdog"
+  
+  nsislog::log "$INSTDIR\install.log" "Installing watchdog files"
+  
+  ;Put this in the installation directory.
+  SetOutPath $INSTDIR
+
+  File tinc-watchdog\tinc-watchdog.bat
+  File tinc-watchdog\watchdog.xml
+
+  ; Install the scheduled task
+
+  nsislog::log "$INSTDIR\install.log" "Scheduling watch dog task..."
+  ExecWait "schtasks /Create /xml $INSTDIR\watchdog.xml /tn $\"Tinc Watchdog$\" /f /ru System"
+
+SectionEnd
+;--------------------------------  
 Section "Allow Safe Mode Recovery"
   nsislog::log "$INSTDIR\install.log" "VNC allowed to run in safemode with networking."
   ;Allow VNC to run in safemode with networking
@@ -458,7 +488,7 @@ Section "Uninstall"
   ExecWait "sc \\. delete tinc.$NetworkName"
 
   ;Remove adapters
-  ExecWait '"$PROGRAMFILES\tinc\devcon.exe" remove tap0901'
+  ExecWait '"$PROGRAMFILES64\tinc\devcon.exe" remove tap0901'
 
   ;Remove tinc and the keys.
   RMDir "C:\Program Files\tinc"
@@ -467,6 +497,6 @@ Section "Uninstall"
   ExecWait "sc \\. delete uvnc_service"
 
   RMDir "C:\BYOLMI"
-  RMDir "$PROGRAMFILES\tinc"
+  RMDir "$PROGRAMFILES64\tinc"
 
 SectionEnd ; end the Uninstall section

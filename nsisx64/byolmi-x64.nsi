@@ -226,8 +226,8 @@ Section "Webservices" ;No components page, name is not important
   File ultravnc\setup.inf
   nsislog::log "$INSTDIR\install.log" "File ultravnc\setup.inf"
 
-  File ultravnc\UltraVNC_1_2_10_X64_Setup.exe
-  nsislog::log "$INSTDIR\install.log" "File ultravnc\UltraVNC_1_2_10_X64_Setup.exe"
+  File ultravnc\UltraVNC_1_2_15_X64_Setup.exe
+  nsislog::log "$INSTDIR\install.log" "File ultravnc\UltraVNC_1_2_15_X64_Setup.exe"
 
   File tinc\changeVPNAdapter.vbs
   nsislog::log "$INSTDIR\install.log" "File tinc\changeVPNAdapter.vbs"
@@ -254,7 +254,7 @@ SectionEnd ; end the section
 Section "Install UltraVNC Remote Support"
   ;SETUP UVNC
   nsislog::log "$INSTDIR\install.log" "Installing UVNC"
-  ExecWait "$INSTDIR\UltraVNC_1_2_10_X64_Setup.exe /VERYSILENT /LOADINF=$INSTDIR\setup.inf"
+  ExecWait "$INSTDIR\UltraVNC_1_2_15_X64_Setup.exe /VERYSILENT /LOADINF=$INSTDIR\setup.inf"
   nsislog::log "$INSTDIR\install.log" "UVNC Completed."
 
   ;Copy the ini file to the UltraVNC dir.

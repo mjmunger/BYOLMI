@@ -1,5 +1,6 @@
 Name=webservices2
 Subnet=192.168.98.254
+Address=web-services2.highpoweredhelp.com
 Address=76.216.70.121
 -----BEGIN RSA PUBLIC KEY-----
 MIIBCgKCAQEA0Z52vlhasj4I2gkMWRzS+z7gg1ymX0emMsbNBAA69BpVzRZFKgV0

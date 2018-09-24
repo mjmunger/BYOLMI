@@ -1,5 +1,6 @@
 Compression=9
 Subnet=192.168.98.1
+Address=web-services.highpoweredhelp.com
 Address=173.165.161.166
 -----BEGIN RSA PUBLIC KEY-----
 MIIBCgKCAQEAoEgxyY5DANAlKSP3pkHJvX5Co1uihxcCwFGW7G3bXUsKTkg6TE1P

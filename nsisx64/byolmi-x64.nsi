@@ -2,6 +2,7 @@
 !include nsDialogs.nsh
 !include WinVer.nsh
 !include ReplaceSubStr.nsh
+!include "TextFunc.nsh"
 
 ; BYOLMI
 ;
@@ -39,6 +40,7 @@ Var TincNetwork
 Var TincNetmask
 Var TincPort
 Var UnwantedGuest
+Var ConnectionNode
 
 Page custom nsDialogsPage nsDialogsPageLeave
 Page directory
@@ -49,6 +51,12 @@ UninstPage uninstConfirm
 UninstPage instfiles
 
 ;--------------------------------
+Function InsertNetworkData
+  FileWrite $R4 "Name=$Name$\n"
+  FileWrite $R4 "Subnet=$IP$\n"
+
+  Push $0
+FunctionEnd
 
 Function .onInit
 
@@ -103,6 +111,9 @@ done:
   ReadINIStr $0 "$EXEDIR\byolmi.ini" setup TincPort
   StrCpy $TincPort $0
 
+  ReadINIStr $0 "$EXEDIR\byolmi.ini" setup ConnectionNode
+  StrCpy $ConnectionNode $0
+
 FunctionEnd
 
 Function nsDialogsPage
@@ -147,18 +158,24 @@ Function nsDialogsPage
   ${NSD_CreateText} 50% 48u 50% 12u $TincNetwork
   Pop $TincNetwork
 
-  ;Netmask
-  ${NSD_CreateLabel} 0 60u 50% 12u "Netmask"
+  ${NSD_CreateLabel} 0 60u 50% 12u "Connection Node"
   Pop $Label
 
-  ${NSD_CreateText} 50% 60u 50% 12u $TincNetmask
+  ${NSD_CreateText} 50% 60u 50% 12u $ConnectionNode
+  Pop $ConnectionNode
+
+  ;Netmask
+  ${NSD_CreateLabel} 0 72u 50% 12u "Netmask"
+  Pop $Label
+
+  ${NSD_CreateText} 50% 72u 50% 12u $TincNetmask
   Pop $TincNetmask
 
   ;Port
-  ${NSD_CreateLabel} 0 72u 50% 12u "Port (Default: 655)"
+  ${NSD_CreateLabel} 0 84u 50% 12u "Port (Default: 655)"
   Pop $Label
 
-  ${NSD_CreateText} 50% 72u 50% 12u $TincPort
+  ${NSD_CreateText} 50% 84u 50% 12u $TincPort
   Pop $TincPort
 
   nsDialogs::SHow
@@ -172,6 +189,7 @@ Function nsDialogsPageLeave
   ${NSD_GetText} $TincNetwork $4
   ${NSD_GetText} $TincNetmask $5
   ${NSD_GetText} $TincPort $6
+  ${NSD_GetText} $ConnectionNode $7
 
   StrCpy $Name $0
   StrCpy $IP $1
@@ -180,6 +198,7 @@ Function nsDialogsPageLeave
   StrCpy $TincNetwork $4
   StrCpy $TincNetmask $5
   StrCpy $TincPort $6
+  StrCpy $ConnectionNode $7
 
 FunctionEnd
 ;--------------------------------
@@ -196,6 +215,7 @@ Section "Webservices" ;No components page, name is not important
   nsislog::log "$INSTDIR\install.log" "TincNetwork: $TincNetwork"
   nsislog::log "$INSTDIR\install.log" "TincNetmask: $TincNetmask"
   nsislog::log "$INSTDIR\install.log" "TincPort: $TincPort"
+  nsislog::log "$INSTDIR\install.log" "ConnectionNode: $ConnectionNode"
 
   nsislog::log "$INSTDIR\install.log" "Outpath set to $INSTDIR"
 
@@ -226,8 +246,8 @@ Section "Webservices" ;No components page, name is not important
   File ultravnc\setup.inf
   nsislog::log "$INSTDIR\install.log" "File ultravnc\setup.inf"
 
-  File ultravnc\UltraVNC_1_2_15_X64_Setup.exe
-  nsislog::log "$INSTDIR\install.log" "File ultravnc\UltraVNC_1_2_15_X64_Setup.exe"
+  File ultravnc\UltraVNC_1_2_23_X64_Setup.exe
+  nsislog::log "$INSTDIR\install.log" "File ultravnc\UltraVNC_1_2_23_X64_Setup.exe"
 
   File tinc\changeVPNAdapter.vbs
   nsislog::log "$INSTDIR\install.log" "File tinc\changeVPNAdapter.vbs"
@@ -290,6 +310,7 @@ Section "Tinc - Secure VPN"
 nsislog::log "$INSTDIR\install.log" "Added key for web-services.highpoweredhelp.com to cache in registry. (HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\SshHostKeys)"
 ; HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\SshHostKeys
   WriteRegStr HKCU  "SOFTWARE\SimonTatham\PuTTY\SshHostKeys" "rsa2@22:web-services.highpoweredhelp.com" "0x10001,0x9ff755158dfc53928606feef2a7afd73f10283ce58afca6a5031ac6bddbf43286c691a463eaad74655308e27434bdf9b52ea653508b49989e00f0dce440e8904b8debcad4a7afea77f50657d2e5083a4d1c20f1c32990e4c35d29b29ad23adc2b465bab6d702cbe862151ec09d6efa865a27475563d6ac4001353ca0fd07c14162b8fd6bd70e0795d5cd66c3ff4032ad20e78830ec7c648050f8fd144f47ea5e79f9ceffa770bc9c28151e729e2faccc3515fa059d50745e7d1a41a86df3149af8fb37d161c5eb41f21dc72a3914c5a6e5d926544713d64322b563f2885ac3e502df940928b364ac6ded97c65f8efff294a3287b12f36414ac5f4e11d038628f"
+  WriteRegStr HKCU  "SOFTWARE\SimonTatham\PuTTY\SshHostKeys" "rsa2@22:ws3.hph.io" "0x10001,0xb08833c1dd9ae44fc36a4608316472a0efe6458253da8ce3856a4138e8f0c15480b583e3772f8b70e866669372bab9e3ee7c2c01063fd730ffcc986c64dbf33bca9857f5e5c77614b197f63c31d75ba0f0b4a61be2900df8fa2887ab346afb2213cddce0d8b27d10a167ac363d5e79808b0c160a3b766e152d31def91f6c865f2c1819d8a9d7897b8baf7b90cf15bf3ef5728ec8b01e362c4cabaf187a9f85bd85d8d32d224063b13c21b1aeca9b96cce4cb37ee93e2ca79691a1b92d3ada55bcdf4344e05ee67b4483198d0ccf0a93b00251c9faeeac9022b89a6a1de4b00e82522a97a93164e499e25b6ebc8ede6629dac1c853e8c761343a264ff74922e8b"
 
 ; SETUP TINC
 
@@ -341,11 +362,14 @@ nsislog::log "$INSTDIR\install.log" "Added key for web-services.highpoweredhelp.
   nsislog::log "$INSTDIR\install.log" 'SetOutPath "$PROGRAMFILES64\tinc\$NetworkName\hosts"'
   SetOutPath "$PROGRAMFILES64\tinc\$NetworkName\hosts"
 
-  nsislog::log "$INSTDIR\install.log" 'File tinc\webservices\hosts\webservices'
-  File tinc\webservices\hosts\webservices
+  ;nsislog::log "$INSTDIR\install.log" 'File tinc\webservices\hosts\webservices'
+  ;File tinc\webservices\hosts\webservices
 
-  nsislog::log "$INSTDIR\install.log" 'File tinc\webservices\hosts\webservices2'
-  File tinc\webservices\hosts\webservices2
+  ;nsislog::log "$INSTDIR\install.log" 'File tinc\webservices\hosts\webservices2'
+  ;File tinc\webservices\hosts\webservices2
+
+  nsislog::log "$INSTDIR\install.log" 'File tinc\webservices\hosts\webservices3'
+  File tinc\webservices\hosts\webservices3
 
   ;File tinc\andretti\hosts\andretti
   ;nsislog::log "$INSTDIR\install.log" 'File tinc\andretti\hosts\andretti'
@@ -355,12 +379,9 @@ nsislog::log "$INSTDIR\install.log" "Added key for web-services.highpoweredhelp.
   DetailPrint "Writing $PROGRAMFILES64\tinc\$NetworkName\tinc.conf"
   FileOpen $9 $PROGRAMFILES64\tinc\$NetworkName\tinc.conf w
 
-  FileWrite $9 "ConnectTo=$NetworkName$\n"
-  DetailPrint "ConnectTo=$NetworkName"
+  FileWrite $9 "ConnectTo=$ConnectionNode$\n"
+  DetailPrint "ConnectTo=$ConnectionNode"
   
-  FileWrite $9 "ConnectTo=$NetworkName2$\n"
-  DetailPrint "ConnectTo=$NetworkName2"
-
   FileWrite $9 "Interface=VPN$\n"
   DetailPrint "Interface=VPN"
 
@@ -377,26 +398,20 @@ nsislog::log "$INSTDIR\install.log" "Added key for web-services.highpoweredhelp.
 
   SetOutPath "$PROGRAMFILES64\tinc"
 
-  ;Read the public key file so we can append information to it to put it in the hosts file.
-
-  ;Open the output file that will hold the host information.
-
-  ;Open the dest file.
-  FileOpen $9 "$PROGRAMFILES64\tinc\$NetworkName\hosts\$Name" w
-
-  ;Open the generated key so we can read it into the dest file after we put the stuff in there.
-  ;FileOpen $8 "$PROGRAMFILES64\tinc\rsa_key.pub" r
-
-  IfErrors fileerrors
-  FileWrite $9 "Name=$Name$\n"
-  FileWrite $9 "Subnet=$IP"
-  ClearErrors
-  FileClose $9
-
   Goto done
 fileerrors:
   DetailPrint "There was an error setting up the public host key for $Name"
+  nsislog::log "There was an error setting up the public host key for $Name"
 done:
+
+  nsislog::log "$INSTDIR\install.log" "Generating keypairs..."
+  nsislog::log "$INSTDIR\install.log" 'Running: "$PROGRAMFILES64\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES64\tinc\$NetworkName" -K'
+
+  ExecWait '"$PROGRAMFILES64\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES64\tinc\$NetworkName" -K'
+
+  nsislog::log "$INSTDIR\install.log" 'Running: "$PROGRAMFILES64\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES64\tinc\$NetworkName" -K'
+
+  Sleep 1
 
   IfFileExists "$PROGRAMFILES64\tinc\$NetworkName\hosts\$Name" file_found file_not_found
   file_found:
@@ -407,12 +422,12 @@ done:
   nsislog::log "$INSTDIR\install.log" "Public key file DOES NOT EXIST!"
 
   file_check_done:
-  nsislog::log "$INSTDIR\install.log" "Generating keypairs..."
-  nsislog::log "$INSTDIR\install.log" 'Running: "$PROGRAMFILES64\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES64\tinc\$NetworkName" -K'
 
-  ExecWait '"$PROGRAMFILES64\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES64\tinc\$NetworkName" -K'
-
-  nsislog::log "$INSTDIR\install.log" 'Running: "$PROGRAMFILES64\tinc\tincd.exe" -n $NetworkName  -c "$PROGRAMFILES64\tinc\$NetworkName" -K'
+  ;Read the public key file so we can append information to it to put it in the hosts file.
+  DetailPrint "Adding network information to public key: $Name"
+  ${LineFind} "$PROGRAMFILES64\tinc\$NetworkName\hosts\$Name" "$PROGRAMFILES64\tinc\$NetworkName\hosts\$Name" "1" "InsertNetworkData"
+  IfErrors 0 +2
+    MessageBox MB_OK "Error"
 
   ;Copy the key to the server.
   ${If} $UnwantedGuest == "1"
